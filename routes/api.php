@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Facades\Controllers\API\ProjectController;
+use App\Http\Controllers\API\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +18,8 @@ use App\Http\Facades\Controllers\API\ProjectController;
 
 Route::name('api.')->group(function() {
 
-    Route::resource('project', ProjectController::class)->only([
-        'index',
-        'show'
-    ]);
+    Route::name('api.')->group(function () {
+        Route::resource('projects', ProjectController::class)->only(['index', 'show']);
+    });
 
 });

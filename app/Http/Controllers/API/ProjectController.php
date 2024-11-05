@@ -4,12 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('type', 'technologies')->paginate(5);
+        $projects = Project::paginate(5);
 
         return response()->json([
             'success' => true,
@@ -23,7 +24,7 @@ class ProjectController extends Controller
 
     public function show(string $slug)
     {
-        $projects = Project::with('type', 'technologies')->where('slug', $slug)->firstOrFail();
+        $project = Project::where('slug', $slug)->firstOrFail();
 
         if ($project) {
             return response()->json([
@@ -31,11 +32,10 @@ class ProjectController extends Controller
                 'code' => 200,
                 'message' => 'Funziona',
                 'data' => [
-                    'projects' => $projects
+                    'project' => $project
                 ],
             ]);
-        }
-        else {
+        } else {
             return response()->json([
                 'success' => false,
                 'code' => 404,
